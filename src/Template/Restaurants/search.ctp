@@ -1,21 +1,31 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Restaurants'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="restaurants form large-9 medium-8 columns content">
-    <?= $this->Form->create($restaurant) ?>
+<div>
+    <h3>Find restaurant</h3>
+    <?= $this->Form->create() ?>
     <fieldset>
-        <legend><?= __('Add Restaurant') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('credit_card_id');
-            echo $this->Form->control('halal');
-            echo $this->Form->control('vegan');
-            echo $this->Form->control('gluten_free');
-        ?>
+        <?= $this->Form->input('find'); ?>
+        <?= $this->Form->button('Submit') ?>
+        <?= $this->Form->end() ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+    <table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>HALAL</th>
+            <th>VEGAN</th>
+            <th>GLTEN FREE</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($restaurants as $restaurant): ?>
+        <tr>
+            <td><?= h($restaurant->id) ?></td>
+            <td><?= h($restaurant->name) ?></td>
+            <td><?= h($restaurant->halal) ?></td>
+            <td><?= h($restaurant->vegan) ?></td>
+            <td><?= h($restaurant->gluten_free) ?></td>
+        </tr>
+            <?php endforeach; ?>
+            </tbody>
+    </table>
 </div>

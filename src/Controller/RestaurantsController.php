@@ -125,11 +125,20 @@ class RestaurantsController extends AppController
   */
   public function search()
   {
-    $restaurant = $this->Restaurants->newEntity();
+    // $restaurant = $this->Restaurants->newEntity();
+    // if ($this->request->is('post')) {
+    //   $restaurant = $this->Restaurants->patchEntity($restaurant, $this->request->getData());
+    // }
+    // $creditCards = $this->Restaurants->CreditCards->find('list', ['limit' => 200]);
+    // $this->set(compact('restaurant', 'creditCards'));
+    $restaurants = [];
     if ($this->request->is('post')) {
-      $restaurant = $this->Restaurants->patchEntity($restaurant, $this->request->getData());
-    }
-    $creditCards = $this->Restaurants->CreditCards->find('list', ['limit' => 200]);
-    $this->set(compact('restaurant', 'creditCards'));
+      $find = $this->request->data['find'];
+      $restaurants = $this->Restaurants->find()
+      ->where(["name like " => '%' . $find . '%'])
+      ->orwhere(["credit_card_id like " => '%' . $find . '%'])
+      ->orwhere(["halal " => '%' . $find . '%']);
+    } 
+    $this->set('restaurants', $restaurants);
   }
 }

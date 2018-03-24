@@ -13,13 +13,13 @@
     </ul>
 </nav>
 <div class="articles form large-9 medium-8 columns content">
-    <?= $this->Form->create($article) ?>
+    <?= $this->Form->create($article,['type' => 'file']); ?>
     <fieldset>
         <legend><?= __('Add Article') ?></legend>
         <?php
             echo $this->Form->control('user_id', ['options' => $users]);
             echo $this->Form->control('title');
-            echo $this->Form->control('image_name');
+            echo $this->Form->control('img_name', ['type' => 'file']);
             echo $this->Form->control('body');
         ?>
     </fieldset>

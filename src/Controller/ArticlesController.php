@@ -17,7 +17,7 @@ use \Symfony\Component\Finder\Finder;
 */
 class ArticlesController extends AppController
 {
-    
+
     /**
     * Index method
     *
@@ -29,10 +29,10 @@ class ArticlesController extends AppController
             'contain' => ['Users']
         ];
         $articles = $this->paginate($this->Articles);
-        
+
         $this->set(compact('articles'));
     }
-    
+
     /**
     * View method
     *
@@ -45,7 +45,7 @@ class ArticlesController extends AppController
         $article = $this->Articles->get($id, [
             'contain' => ['Users']
         ]);
-            
+
         // Usersの'id'とMachinesの'user_id'が等しいか
         if($this->Auth->user('id') === $article['user_id']){
             $this->set('article', $article);
@@ -55,7 +55,7 @@ class ArticlesController extends AppController
             return $this->redirect(['action' => 'index']);
         }
     }
-        
+
         /**
         * Add method
         *
@@ -66,9 +66,10 @@ class ArticlesController extends AppController
             $article = $this->Articles->newEntity();
             if ($this->request->is('post')) {
                 $article = $this->Articles->patchEntity($article, $this->request->getData());
+                $article['user_id'] = $this->Auth->user('id');
                 if ($this->Articles->save($article)) {
                     $this->Flash->success(__('The article has been saved.'));
-                    
+
                     return $this->redirect(['action' => 'index']);
                 }
                 $this->Flash->error(__('The article could not be saved. Please, try again.'));
@@ -76,7 +77,7 @@ class ArticlesController extends AppController
             $users = $this->Articles->Users->find('list', ['limit' => 200]);
             $this->set(compact('article', 'users'));
         }
-        
+
         /**
         * Edit method
         *
@@ -93,7 +94,7 @@ class ArticlesController extends AppController
                     $article = $this->Articles->patchEntity($article, $this->request->getData());
                     if ($this->Articles->save($article)) {
                         $this->Flash->success(__('The article has been saved.'));
-                        
+
                         return $this->redirect(['action' => 'index']);
                     }
                     $this->Flash->error(__('The article could not be saved. Please, try again.'));
@@ -101,7 +102,7 @@ class ArticlesController extends AppController
                 $users = $this->Articles->Users->find('list', ['limit' => 200]);
                 $this->set(compact('article', 'users'));
             }
-            
+
             /**
             * Delete method
             *
@@ -118,8 +119,7 @@ class ArticlesController extends AppController
                 } else {
                     $this->Flash->error(__('The article could not be deleted. Please, try again.'));
                 }
-                
+
                 return $this->redirect(['action' => 'index']);
             }
         }
-        

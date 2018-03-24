@@ -1,5 +1,5 @@
 <div>
-    <h3>Find restaurant</h3>
+    <h3>Find Restaurant</h3>
     <?= $this->Form->create() ?>
     <fieldset>
         <?= $this->Form->input('find'); ?>
